@@ -23,7 +23,8 @@ def refactor_data_frame(df: 'pd.DataFrame') -> 'pd.DataFrame':
     df['type'] = df['type'].replace(namesOfWorkout)
     df['startTime'] = pd.to_datetime(df['startTime'])\
         .dt.tz_convert("America/Mexico_City")\
-        .apply(lambda x: x.strftime('%Y-%m-%d %H:%m'))\
+        .apply(lambda x: x.strftime('%Y-%m-%d %H:%m:%s')) \
+        .apply(lambda x: ":".join(x.split(":")[:2])) \
         .apply(lambda x: datetime.strptime(
         x, '%Y-%m-%d %H:%M'))
 
@@ -66,4 +67,7 @@ def read(path: 'str' = 'sport') -> 'pd.DataFrame':
 
 
 if __name__ == '__main__':
-    pass
+    startTime = read()['startTime']
+    print(startTime[0] , startTime[1])
+    print(startTime[0] > startTime[1])
+    print(startTime)
