@@ -2,3 +2,6 @@
 data/
 
 .idea/
+
+#For test coda and mode
+test.py
