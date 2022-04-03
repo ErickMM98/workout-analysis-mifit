@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from datetime import datetime
 
 
 def refactor_data_frame(df: 'pd.DataFrame') -> 'pd.DataFrame':
@@ -20,8 +21,12 @@ def refactor_data_frame(df: 'pd.DataFrame') -> 'pd.DataFrame':
                               16: "Freestyle",
                               21: "Jump Rope"}
     df['type'] = df['type'].replace(namesOfWorkout)
-    df['startTime'] = pd.to_datetime(df['startTime']).dt.tz_convert("America/Mexico_City")\
-        .apply(lambda x: x.strftime('%Y-%m-%d %H:%m'))
+    df['startTime'] = pd.to_datetime(df['startTime'])\
+        .dt.tz_convert("America/Mexico_City")\
+        .apply(lambda x: x.strftime('%Y-%m-%d %H:%m:%s')) \
+        .apply(lambda x: ":".join(x.split(":")[:2])) \
+        .apply(lambda x: datetime.strptime(
+        x, '%Y-%m-%d %H:%M'))
 
     return df
 
@@ -62,4 +67,7 @@ def read(path: 'str' = 'sport') -> 'pd.DataFrame':
 
 
 if __name__ == '__main__':
-    pass
+    startTime = read()['startTime']
+    print(startTime[0] , startTime[1])
+    print(startTime[0] > startTime[1])
+    print(startTime)
