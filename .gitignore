@@ -1,5 +1,5 @@
 #Ignore all personal information.
-data/
+data
 .idea/
 
 #For testing code

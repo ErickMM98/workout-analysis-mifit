@@ -1,11 +1,26 @@
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd
 from datetime import datetime
 
+#import zeppanalysis.util.
+#import zeppanalysis.util
+# import zeppanalysis.util as utilZepp
+# from zeppanalysis.util import pd
+#from ..util.files import get_path_first_file_by_prefix
+#from ..util.files import pd
+from zeppanalysis.util import files
 
-def refactor_data_frame(df: "pd.DataFrame") -> "pd.DataFrame":
+
+
+NAME_RECORD: 'str' = "SPORT"
+NAMES_TYPE_WORKOUT: 'dict' = {1: "Running",
+                              16: "Freestyle",
+                              21: "Jump Rope"}
+
+
+def refactor_data_frame(df: 'pd.DataFrame') -> 'pd.DataFrame':
     """
     Function to incorporate all the modifications on the Zepp/MiFit
     dataframe.
@@ -17,20 +32,17 @@ def refactor_data_frame(df: "pd.DataFrame") -> "pd.DataFrame":
     :param df: 'pd.DataFrame'
     :return: df: 'pd.DataFrame'
     """
-    namesOfWorkout: "dict" = {1: "Running", 16: "Freestyle", 21: "Jump Rope"}
-    df["type"] = df["type"].replace(namesOfWorkout)
-    df["startTime"] = (
-        pd.to_datetime(df["startTime"])
-        .dt.tz_convert("America/Mexico_City")
-        .apply(lambda x: x.strftime("%Y-%m-%d %H:%m:%s"))
-        .apply(lambda x: ":".join(x.split(":")[:2]))
-        .apply(lambda x: datetime.strptime(x, "%Y-%m-%d %H:%M"))
-    )
+    df['type'] = df['type'].replace(NAMES_TYPE_WORKOUT)
+    df['startTime'] = pd.to_datetime(df['startTime']) \
+        .dt.tz_convert("America/Mexico_City") \
+        .apply(lambda x: x.strftime('%Y-%m-%d %H:%m:%s')) \
+        .apply(lambda x: ":".join(x.split(":")[:2])) \
+        .apply(lambda x: datetime.strptime(x, '%Y-%m-%d %H:%M'))
 
     return df
 
 
-def read(path: "str" = "sport") -> "pd.DataFrame":
+def get_data(path: 'str' = None) -> 'pd.DataFrame':
     """
     Function to read and cast all the important information of the csv file.
     This is the following format of Zepp/MiFit
@@ -54,9 +66,8 @@ def read(path: "str" = "sport") -> "pd.DataFrame":
     :return: pd.Dataframe
     """
     # TODO: Add a simple function to read the unique csv file in the folder.
-    df = pd.DataFrame()
-    if path == "sport":
-        df = pd.read_csv("data/SPORT_1648939638346.csv")
+    if path is None:
+        df = pd.read_csv(files.get_path_first_file_by_prefix(NAME_RECORD))
     else:
         df = pd.read_csv(path)
 
@@ -65,5 +76,7 @@ def read(path: "str" = "sport") -> "pd.DataFrame":
     return df
 
 
-if __name__ == "__main__":
-    pass
+if __name__ == '__main__':
+    get_data()
+    # utilZepp.get_path_first_file_by_prefix("SPORT")
+    #print(help(files))
