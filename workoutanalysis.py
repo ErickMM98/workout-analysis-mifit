@@ -56,7 +56,7 @@ def read(path: 'str' = 'sport') -> 'pd.DataFrame':
     # TODO: Add a simple function to read the unique csv file in the folder.
     df = pd.DataFrame()
     if path == 'sport':
-        df = pd.read_csv('data/sport/SPORT_1648939638346.csv')
+        df = pd.read_csv('data/SPORT_1648939638346.csv')
     else:
         df = pd.read_csv(path)
 

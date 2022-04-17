@@ -1,7 +1,6 @@
 #@ErickMM98
 
-import workoutanalysis as wa
-
+from zeppanalysis.data import workout
 
 if __name__ == '__main__':
-    print(wa.read())
+    print(workout.get_data())
