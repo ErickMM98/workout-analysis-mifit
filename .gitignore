@@ -1,7 +1,9 @@
 #Ignore all personal information.
 data/
-
 .idea/
 
-#For test coda and mode
+#For testing code
 test.py
+
+#For ignore all information in the package
+*.pyc
